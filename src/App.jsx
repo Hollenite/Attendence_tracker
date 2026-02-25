@@ -20,32 +20,42 @@ function App() {
   const [sortOption, setSortOption] = useState('none');
   const [studentCount, setStudentCount] = useState(25);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function getStudents() {
-      const url = 'https://randomuser.me/api/?results=100&nat=IN&seed=attendance2024';
-      const data = await fetch(url);
-      const json = await data.json();
+      try {
+        const url = 'https://randomuser.me/api/?results=100&nat=IN&seed=attendance2024';
+        const data = await fetch(url);
+        const json = await data.json();
 
-      const rng = seededRandom(42);
-      const enriched = json.results.map(({ name, login, email, phone, location, picture }, index) => {
-        const attendance = Math.floor(rng() * 51) + 50;
-        return {
-          id: index + 1,
-          name: `${name.first} ${name.last}`,
-          username: login.username,
-          email,
-          phone,
-          city: location.city,
-          state: location.state,
-          picture: picture.medium,
-          attendance,
-          status: attendance >= 75 ? 'Present' : 'Absent',
-        };
-      });
+        if (!json || !Array.isArray(json.results)) {
+          throw new Error('Unexpected API response format');
+        }
 
-      setAllStudents(enriched);
-      setLoading(false);
+        const rng = seededRandom(42);
+        const enriched = json.results.map(({ name, login, email, phone, location, picture }, index) => {
+          const attendance = Math.floor(rng() * 51) + 50;
+          return {
+            id: index + 1,
+            name: `${name.first} ${name.last}`,
+            username: login.username,
+            email,
+            phone,
+            city: location.city,
+            state: location.state,
+            picture: picture.medium,
+            attendance,
+            status: attendance >= 75 ? 'Present' : 'Absent',
+          };
+        });
+
+        setAllStudents(enriched);
+      } catch (err) {
+        setError(err.message || 'Failed to load student data');
+      } finally {
+        setLoading(false);
+      }
     }
     getStudents();
   }, []);
@@ -82,6 +92,11 @@ function App() {
   const totalCount = students.length;
   const presentCount = students.filter((s) => s.status === 'Present').length;
   const absentCount = students.filter((s) => s.status === 'Absent').length;
+  const filteredCount = filteredStudents.length;
+
+  const activeFilterLabel = showLowAttendance
+    ? `${filter === 'all' ? 'All' : filter === 'present' ? 'Present' : 'Absent'} + Low Attendance`
+    : filter === 'all' ? 'All' : filter === 'present' ? 'Present' : 'Absent';
 
   const selectedObj = students.find((s) => s.id === selectedStudent) || null;
 
@@ -108,7 +123,17 @@ function App() {
           setStudentCount={setStudentCount}
         />
 
-        {!loading && (
+        {error && (
+          <div className="error-banner">
+            <span className="error-icon">⚠</span>
+            <div>
+              <strong>Something went wrong</strong>
+              <p>{error}</p>
+            </div>
+          </div>
+        )}
+
+        {!loading && !error && (
           <div className="stats-grid">
             <div className="stat-card">
               <div className="stat-value">{totalCount}</div>
@@ -125,21 +150,30 @@ function App() {
           </div>
         )}
 
-        <div className={selectedObj ? 'main-content--with-sidebar' : 'main-content'}>
-          <StudentList
-            students={filteredStudents}
-            selectedStudent={selectedStudent}
-            setSelectedStudent={setSelectedStudent}
-            loading={loading}
-          />
+        {!loading && !error && (
+          <div className="filtered-count">
+            Showing <strong>{filteredCount}</strong> of <strong>{totalCount}</strong> students
+          </div>
+        )}
 
-          {selectedObj && (
-            <StudentCard
-              student={selectedObj}
-              onClose={() => setSelectedStudent(null)}
+        {!error && (
+          <div className={selectedObj ? 'main-content--with-sidebar' : 'main-content'}>
+            <StudentList
+              students={filteredStudents}
+              selectedStudent={selectedStudent}
+              setSelectedStudent={setSelectedStudent}
+              loading={loading}
+              activeFilterLabel={activeFilterLabel}
             />
-          )}
-        </div>
+
+            {selectedObj && (
+              <StudentCard
+                student={selectedObj}
+                onClose={() => setSelectedStudent(null)}
+              />
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

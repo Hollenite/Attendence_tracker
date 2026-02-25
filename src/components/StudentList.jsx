@@ -1,6 +1,6 @@
 import './StudentList.css';
 
-function StudentList({ students, selectedStudent, setSelectedStudent, loading }) {
+function StudentList({ students, selectedStudent, setSelectedStudent, loading, activeFilterLabel }) {
     if (loading) {
         return (
             <div className="student-list">
@@ -24,14 +24,23 @@ function StudentList({ students, selectedStudent, setSelectedStudent, loading })
         );
     }
 
-    if (students.length === 0) {
+    if (!Array.isArray(students) || students.length === 0) {
         return (
             <div className="empty-state">
                 <div className="empty-state-icon">📋</div>
-                <p className="empty-state-text">No students match the current filters.</p>
+                <p className="empty-state-text">
+                    No students match the current filter: <strong>{activeFilterLabel}</strong>
+                </p>
             </div>
         );
     }
+
+    const handleRowKeyDown = (e, studentId, isSelected) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setSelectedStudent(isSelected ? null : studentId);
+        }
+    };
 
     return (
         <div className="student-list">
@@ -49,9 +58,13 @@ function StudentList({ students, selectedStudent, setSelectedStudent, loading })
                     <div
                         key={student.id}
                         className={`student-row ${isSelected ? 'student-row--selected' : ''}`}
+                        role="button"
+                        tabIndex={0}
+                        aria-selected={isSelected}
                         onClick={() =>
                             setSelectedStudent(isSelected ? null : student.id)
                         }
+                        onKeyDown={(e) => handleRowKeyDown(e, student.id, isSelected)}
                     >
                         <span className="cell-index">{idx + 1}</span>
                         <span className="cell-name">{student.name}</span>

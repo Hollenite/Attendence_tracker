@@ -45,6 +45,11 @@
     background-color: #1f2937;
 }
 
+.filter-btn:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
 /* ===== Low Attendance Toggle ===== */
 .filters-right {
     display: flex;
@@ -95,6 +100,11 @@
 
 .low-attendance-btn--active .low-attendance-dot {
     background-color: #ef4444;
+}
+
+.low-attendance-btn:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
 }
 
 /* ===== Student Count Input ===== */
