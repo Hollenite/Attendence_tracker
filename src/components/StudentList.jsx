@@ -1,4 +1,4 @@
-function StudentTable({ students, selectedStudent, setSelectedStudent, loading }) {
+function StudentList({ students, selectedStudent, setSelectedStudent, loading }) {
     if (loading) {
         return (
             <div className="bg-white border border-gray-200 rounded-md overflow-hidden">
@@ -59,8 +59,8 @@ function StudentTable({ students, selectedStudent, setSelectedStudent, loading }
                             <tr
                                 key={student.id}
                                 className={`border-b border-gray-100 last:border-b-0 cursor-pointer transition duration-150 ${isSelected
-                                        ? 'bg-gray-50 border-l-2 border-l-gray-800'
-                                        : 'hover:bg-gray-50'
+                                    ? 'bg-gray-50 border-l-2 border-l-gray-800'
+                                    : 'hover:bg-gray-50'
                                     }`}
                                 onClick={() =>
                                     setSelectedStudent(isSelected ? null : student.id)
@@ -89,8 +89,8 @@ function StudentTable({ students, selectedStudent, setSelectedStudent, loading }
                                 <td className="px-5 py-3.5 text-center">
                                     <span
                                         className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium ${isGreen
-                                                ? 'bg-green-50 text-green-600'
-                                                : 'bg-red-50 text-red-600'
+                                            ? 'bg-green-50 text-green-600'
+                                            : 'bg-red-50 text-red-600'
                                             }`}
                                     >
                                         <span
@@ -109,4 +109,4 @@ function StudentTable({ students, selectedStudent, setSelectedStudent, loading }
     );
 }
 
-export default StudentTable;
+export default StudentList;
