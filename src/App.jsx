@@ -64,53 +64,62 @@ function App() {
   const selectedObj = students.find((s) => s.id === selectedStudent) || null;
 
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>📋 Student Attendance Viewer</h1>
-        <p>Track attendance and identify students who need support</p>
-      </header>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto px-6 py-10">
+        {/* Header */}
+        <header className="mb-8">
+          <h1 className="text-2xl font-semibold text-gray-800">
+            Student Attendance Viewer
+          </h1>
+          <p className="text-sm text-gray-500 mt-1">
+            Track attendance and identify students who need support
+          </p>
+        </header>
 
-      <FilterBar
-        filter={filter}
-        setFilter={setFilter}
-        showLowAttendance={showLowAttendance}
-        setShowLowAttendance={setShowLowAttendance}
-        sortByAttendance={sortByAttendance}
-        setSortByAttendance={setSortByAttendance}
-      />
-
-      {/* Stats overview */}
-      {!loading && (
-        <div className="stats-bar">
-          <div className="stat-card total">
-            <div className="stat-value">{totalCount}</div>
-            <div className="stat-label">Total Students</div>
-          </div>
-          <div className="stat-card present">
-            <div className="stat-value">{presentCount}</div>
-            <div className="stat-label">Present</div>
-          </div>
-          <div className="stat-card absent">
-            <div className="stat-value">{absentCount}</div>
-            <div className="stat-label">Absent</div>
-          </div>
-        </div>
-      )}
-
-      <div className={`app-content${selectedObj ? ' has-detail' : ''}`}>
-        <StudentTable
-          students={filteredStudents}
-          selectedStudent={selectedStudent}
-          setSelectedStudent={setSelectedStudent}
-          loading={loading}
+        {/* Controls */}
+        <FilterBar
+          filter={filter}
+          setFilter={setFilter}
+          showLowAttendance={showLowAttendance}
+          setShowLowAttendance={setShowLowAttendance}
+          sortByAttendance={sortByAttendance}
+          setSortByAttendance={setSortByAttendance}
         />
 
-        {selectedObj && (
-          <StudentDetail
-            student={selectedObj}
-            onClose={() => setSelectedStudent(null)}
-          />
+        {/* Stats */}
+        {!loading && (
+          <div className="grid grid-cols-3 gap-4 mt-6">
+            <div className="bg-white border border-gray-200 rounded-md px-5 py-4 text-center">
+              <div className="text-2xl font-semibold text-gray-800">{totalCount}</div>
+              <div className="text-xs text-gray-500 mt-0.5 uppercase tracking-wide font-medium">Total Students</div>
+            </div>
+            <div className="bg-white border border-gray-200 rounded-md px-5 py-4 text-center">
+              <div className="text-2xl font-semibold text-green-600">{presentCount}</div>
+              <div className="text-xs text-gray-500 mt-0.5 uppercase tracking-wide font-medium">Present</div>
+            </div>
+            <div className="bg-white border border-gray-200 rounded-md px-5 py-4 text-center">
+              <div className="text-2xl font-semibold text-red-600">{absentCount}</div>
+              <div className="text-xs text-gray-500 mt-0.5 uppercase tracking-wide font-medium">Absent</div>
+            </div>
+          </div>
         )}
+
+        {/* Main content */}
+        <div className={`mt-6 ${selectedObj ? 'grid grid-cols-[1fr_300px] gap-6 items-start' : ''}`}>
+          <StudentTable
+            students={filteredStudents}
+            selectedStudent={selectedStudent}
+            setSelectedStudent={setSelectedStudent}
+            loading={loading}
+          />
+
+          {selectedObj && (
+            <StudentDetail
+              student={selectedObj}
+              onClose={() => setSelectedStudent(null)}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

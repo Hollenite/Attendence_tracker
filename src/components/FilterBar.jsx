@@ -13,12 +13,16 @@ function FilterBar({
   ];
 
   return (
-    <div className="filter-bar">
-      <div className="filter-group">
+    <div className="flex items-center flex-wrap gap-3">
+      {/* Filter buttons */}
+      <div className="flex gap-2">
         {filters.map((f) => (
           <button
             key={f.key}
-            className={`filter-btn${filter === f.key ? ' active' : ''}`}
+            className={`px-4 py-2 text-sm font-medium rounded-md transition duration-150 cursor-pointer ${filter === f.key
+                ? 'bg-gray-800 text-white'
+                : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-100'
+              }`}
             onClick={() => setFilter(f.key)}
           >
             {f.label}
@@ -26,22 +30,27 @@ function FilterBar({
         ))}
       </div>
 
-      <div className="divider" />
-
-      <div className="toggle-group">
+      {/* Toggles */}
+      <div className="flex items-center gap-2 ml-auto">
         <button
-          className={`toggle-btn${showLowAttendance ? ' active' : ''}`}
+          className={`flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-md transition duration-150 cursor-pointer ${showLowAttendance
+              ? 'bg-red-50 text-red-600 border border-red-200'
+              : 'bg-white border border-gray-200 text-gray-500 hover:bg-gray-100'
+            }`}
           onClick={() => setShowLowAttendance((v) => !v)}
         >
-          <span className="toggle-icon">⚠</span>
+          <span>⚠</span>
           {'<'} 75% Only
         </button>
 
         <button
-          className={`toggle-btn${sortByAttendance ? ' sort-active' : ''}`}
+          className={`flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-md transition duration-150 cursor-pointer ${sortByAttendance
+              ? 'bg-gray-800 text-white'
+              : 'bg-white border border-gray-200 text-gray-500 hover:bg-gray-100'
+            }`}
           onClick={() => setSortByAttendance((v) => !v)}
         >
-          <span className="toggle-icon">↕</span>
+          <span>↕</span>
           Sort by %
         </button>
       </div>
