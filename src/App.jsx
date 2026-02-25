@@ -83,13 +83,13 @@ function App() {
   const selectedObj = students.find((s) => s.id === selectedStudent) || null;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-6 py-10">
-        <header className="mb-8">
-          <h1 className="text-2xl font-semibold text-gray-800">
+    <div className="app-wrapper">
+      <div className="app-container">
+        <header className="app-header">
+          <h1 className="app-title">
             Student Attendance Viewer
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="app-subtitle">
             Track attendance and identify students who need support
           </p>
         </header>
@@ -106,23 +106,23 @@ function App() {
         />
 
         {!loading && (
-          <div className="grid grid-cols-3 gap-4 mt-6">
-            <div className="bg-white border border-gray-200 rounded-md px-5 py-4 text-center">
-              <div className="text-2xl font-semibold text-gray-800">{totalCount}</div>
-              <div className="text-xs text-gray-500 mt-0.5 uppercase tracking-wide font-medium">Total Students</div>
+          <div className="stats-grid">
+            <div className="stat-card">
+              <div className="stat-value">{totalCount}</div>
+              <div className="stat-label">Total Students</div>
             </div>
-            <div className="bg-white border border-gray-200 rounded-md px-5 py-4 text-center">
-              <div className="text-2xl font-semibold text-green-600">{presentCount}</div>
-              <div className="text-xs text-gray-500 mt-0.5 uppercase tracking-wide font-medium">Present</div>
+            <div className="stat-card">
+              <div className="stat-value--green">{presentCount}</div>
+              <div className="stat-label">Present</div>
             </div>
-            <div className="bg-white border border-gray-200 rounded-md px-5 py-4 text-center">
-              <div className="text-2xl font-semibold text-red-600">{absentCount}</div>
-              <div className="text-xs text-gray-500 mt-0.5 uppercase tracking-wide font-medium">Absent</div>
+            <div className="stat-card">
+              <div className="stat-value--red">{absentCount}</div>
+              <div className="stat-label">Absent</div>
             </div>
           </div>
         )}
 
-        <div className={`mt-6 ${selectedObj ? 'grid grid-cols-[1fr_300px] gap-6 items-start' : ''}`}>
+        <div className={selectedObj ? 'main-content--with-sidebar' : 'main-content'}>
           <StudentList
             students={filteredStudents}
             selectedStudent={selectedStudent}
