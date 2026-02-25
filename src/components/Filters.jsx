@@ -63,7 +63,7 @@ function Filters({
                         className={`low-attendance-btn ${showLowAttendance ? 'low-attendance-btn--active' : ''}`}
                         onClick={() => setShowLowAttendance((v) => !v)}
                     >
-                        <span>⚠</span>
+                        <span className="low-attendance-dot" />
                         {'<'} 75% Only
                     </button>
                 </div>
@@ -85,18 +85,20 @@ function Filters({
                 </div>
 
                 <div className="filters-right">
-                    <span className="sort-label">Sort by</span>
-                    <select
-                        value={sortOption}
-                        onChange={(e) => setSortOption(e.target.value)}
-                        className="sort-select"
-                    >
-                        {sortOptions.map((opt) => (
-                            <option key={opt.value} value={opt.value}>
-                                {opt.label}
-                            </option>
-                        ))}
-                    </select>
+                    <div className="sort-group">
+                        <span className="sort-label">Sort</span>
+                        <select
+                            value={sortOption}
+                            onChange={(e) => setSortOption(e.target.value)}
+                            className="sort-select"
+                        >
+                            {sortOptions.map((opt) => (
+                                <option key={opt.value} value={opt.value}>
+                                    {opt.label}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
