@@ -1,16 +1,58 @@
-# React + Vite
+# Attendance Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, clean, and minimalistic **Student Attendance Tracker** built with **React, Vite, and Tailwind CSS**.  
+Designed to help teachers visualize and manage student attendance with clear filtering, selection, and status indicators.
 
-Currently, two official plugins are available:
+Live Demo: https://attendence-tracker-lyart.vercel.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 📌 Project Overview
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This project is a frontend-focused web application that:
 
-## Expanding the ESLint configuration
+- Fetches student data (Indian nationality) from the RandomUser API  
+- Generates realistic attendance percentages using a seeded random generator  
+- Displays students in a structured, interactive list  
+- Provides filtering options: **All, Present, Absent**  
+- Highlights selected students  
+- Applies conditional styling based on attendance threshold  
+- Includes loading skeleton and empty state UI  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The application is designed around one core philosophy: **simplicity and clarity**.
+
+---
+
+## 🧠 Features
+
+- API integration using `fetch` and `useEffect`
+- Deterministic attendance generation
+- Loading skeleton UI
+- Empty state handling
+- Conditional rendering
+- Dynamic filtering and selection
+- Attendance progress visualization
+- Clean and responsive UI using Tailwind CSS
+
+---
+
+## 🛠️ Technologies Used
+
+| Layer | Technology |
+|--------|------------|
+| Frontend | React (Functional Components + Hooks) |
+| Bundler | Vite |
+| Styling | Tailwind CSS |
+| API | RandomUser Public API (nat=IN) |
+| State Management | useState, useEffect |
+| Deployment | Vercel |
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Hollenite/Attendence_tracker.git
+cd Attendence_tracker
