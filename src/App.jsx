@@ -22,29 +22,32 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://randomuser.me/api/?results=100&nat=IN&seed=attendance2024')
-      .then((res) => res.json())
-      .then((data) => {
-        const rng = seededRandom(42);
-        const enriched = data.results.map((user, index) => {
-          const attendance = Math.floor(rng() * 51) + 50;
-          return {
-            id: index + 1,
-            name: `${user.name.first} ${user.name.last}`,
-            username: user.login.username,
-            email: user.email,
-            phone: user.phone,
-            city: user.location.city,
-            state: user.location.state,
-            picture: user.picture.medium,
-            attendance,
-            status: attendance >= 75 ? 'Present' : 'Absent',
-          };
-        });
-        setAllStudents(enriched);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    async function getStudents() {
+      const url = 'https://randomuser.me/api/?results=100&nat=IN&seed=attendance2024';
+      const data = await fetch(url);
+      const json = await data.json();
+
+      const rng = seededRandom(42);
+      const enriched = json.results.map(({ name, login, email, phone, location, picture }, index) => {
+        const attendance = Math.floor(rng() * 51) + 50;
+        return {
+          id: index + 1,
+          name: `${name.first} ${name.last}`,
+          username: login.username,
+          email,
+          phone,
+          city: location.city,
+          state: location.state,
+          picture: picture.medium,
+          attendance,
+          status: attendance >= 75 ? 'Present' : 'Absent',
+        };
+      });
+
+      setAllStudents(enriched);
+      setLoading(false);
+    }
+    getStudents();
   }, []);
 
   const students = allStudents.slice(0, studentCount);
